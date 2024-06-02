@@ -1,0 +1,47 @@
+{% extends 'main.html' %}
+
+
+{% block content %}
+
+<header class="py-2 bg-light border-bottom mb-2">
+    <div class="container">
+        <div class="text-right my-2">
+            <h2 class="fw-bolder">Posts da categoria:  <i>{{ category.name }}</i></h2>
+            
+        </div>
+    </div>
+</header>
+
+<div class="container">
+    <div class="row">
+        <!-- Blog entries-->
+        <div class="col-lg-12">
+            <!-- Featured blog post-->
+            
+            <div class="row">
+                {% for post in page_obj %}
+                <div class="col-lg-6">
+                    <!-- Blog post-->
+                    <div class="card mb-4">
+                        <img class="card-img-top" src="{{ post.image.url }}" alt="..." />
+                        
+                        <div class="card-body">
+                            <div class="small text-muted">{{post.created}}</div>
+                            <h2 class="card-title h4">{{post.name}}</h2>
+                            <div class="small text-muted">@{{post.owner}}</div>
+                            <p class="card-text">{{post.description|slice:'256'}}...</p>
+                            <a class="btn btn-primary" href="{% url 'post' post.id %}">Saiba mais →</a>
+                        </div>
+                    
+                </div>
+            </div>
+            {% endfor %}
+            </div>
+   
+        </div>
+        
+    </div>
+</div>
+
+
+{% endblock %}
