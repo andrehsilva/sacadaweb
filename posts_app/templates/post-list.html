@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<header class="py-4 bg-light border-bottom mb-4">
+    <div class="container">
+        <div class="text-center my-4">
+            <h1 class="fw-bolder">Welcome to my Blog Home!</h1>
+            <p class="lead mb-0">I'm very happy to see you here</p>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+    <div class="row">
+        <!-- Blog entries-->
+        <div class="col-lg-8">
+            <!-- Featured blog post-->
+            
+            <div class="row">
+                {% for post in posts %}
+                <div class="col-lg-6">
+                    <!-- Blog post-->
+                    <div class="card mb-4">
+                        <img class="card-img-top" src="{{ post.image.url }}" alt="..." />
+                        
+                        <div class="card-body">
+                            <div class="small text-muted">{{post.created}}</div>
+                            <h2 class="card-title h4">{{post.name}}</h2>
+                            <div class="small text-muted">@{{post.owner}}</div>
+                            <p class="card-text">{{post.description|slice:'256'}}...</p>
+                            <a class="btn btn-primary" href="">Saiba mais →</a>
+                        </div>
+                    
+                </div>
+            </div>
+            {% endfor %}
+            </div>
+            <!-- Pagination-->
+            <nav aria-label="Pagination">
+                <hr class="my-0" />
+                <ul class="pagination justify-content-center my-4">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo; first </a></li>
+                    {% endif %}
+
+                    <li class="page-item active"><a class="page-link">{{page_obj.number}}</a></li>
+
+                    {% if page_obj.has_next %}
+					<a href="?page={{ page_obj.next_page_number }}">Próxima</a>
+					<a href="?page={{ page_obj.paginator.num_pages }}">Última &raquo;</a>
+                    {% endif %}
+          
+                                
+                </ul>
+            </nav>
+        </div>
+        <!-- Side widgets-->
+        <div class="col-lg-4">
+            <!-- Search widget-->
+            <div class="card mb-4">
+                <div class="card-header">Encontre</div>
+                <form class="form" action="{% url 'post-list' %}" method="get">
+                <div class="card-body">
+                    <div class="input-group">
+                        <input class="form-control" value="{{search_query}}" name="search_query" type="text" placeholder="Digite o termo de busca..." aria-label="igite o termo de busca..." aria-describedby="button-search" />
+                        <input class="btn btn-primary" id="button-search" type="submit"/>
+                    </div>
+                </div>
+            </form>
+            </div>
+            <!-- Categories widget-->
+            <div class="card mb-4">
+                <div class="card-header">Categorias</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <ul class="list-unstyled mb-0">
+                                {% for category in categories.all %}
+                                <li><a class="badge bg-primary text-decoration-none link-light" href="">{{category.name}}</a></li>
+                                
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <!-- Side widget-->
+            <div class="card mb-4">
+                <div class="card-header">Últimos artigos</div>
+                <ul class="list-unstyled p-4">
+                    {% for post in posts_latest %}
+                    <li><a class="text-decoration-none capitalize" href="{% url 'post' post.id %}">{{post.name}} - {{post.created|date:"d:m:Y"}} </a></li>
+                    
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
