@@ -10,7 +10,7 @@ class ListPosts(ListView):
     template_name = 'post-list.html'
     model = Post
     context_object_name = 'posts'
-    paginate_by = 4
+    paginate_by = 10
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -19,8 +19,7 @@ class ListPosts(ListView):
         if search_query:
             queryset = queryset.filter(
                 Q(name__icontains=search_query) |
-                Q(content__icontains=search_query) |
-                Q(author__username__icontains=search_query)
+                Q(description__icontains=search_query)
             )
 
         return queryset
