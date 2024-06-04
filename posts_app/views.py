@@ -2,6 +2,7 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView, D
 from django.core.paginator import Paginator
 from django.shortcuts import render
 from posts_app.models import Post, Category
+#from posts_app.forms import PostForm
 from django.urls import reverse_lazy
 from django.db.models import Q
 
@@ -34,6 +35,7 @@ class ListPosts(ListView):
         context['selected_category'] = self.request.GET.get('category', '')
         context['search_query'] = self.request.GET.get('search_query', '')
         context['posts_latest'] = Post.objects.order_by('-created')[:5]
+        context['no_results'] = not context['posts'].exists()
         return context
 
 
@@ -42,3 +44,10 @@ class PostDetailView(DetailView):
     model = Post
     template_name = 'post-detail.html'
     context_object_name = 'post'
+
+
+#class PostCreateView(CreateView):
+#    model = Post
+#    form_class = PostForm
+#    template_name = 'post_form.html'
+#    success_url = reverse_lazy('post-list')
