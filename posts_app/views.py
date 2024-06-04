@@ -15,6 +15,7 @@ class ListPosts(ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
         search_query = self.request.GET.get('search_query', '')
+        category_id = self.request.GET.get('category', '')
 
         if search_query:
             queryset = queryset.filter(
@@ -22,11 +23,15 @@ class ListPosts(ListView):
                 Q(description__icontains=search_query)
             )
 
+        if category_id:
+            queryset = queryset.filter(categories__id=category_id)
+
         return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories'] = Category.objects.all()
+        context['selected_category'] = self.request.GET.get('category', '')
         context['search_query'] = self.request.GET.get('search_query', '')
         context['posts_latest'] = Post.objects.order_by('-created')[:5]
         return context

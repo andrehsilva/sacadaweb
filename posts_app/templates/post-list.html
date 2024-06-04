@@ -91,7 +91,9 @@
                         <div class="col-sm-6">
                             <ul class="list-unstyled mb-0">
                                 {% for category in categories.all %}
-                                <li><a class="badge bg-primary text-decoration-none link-light" href="">{{category.name}}</a></li>
+                                <li><a class="badge bg-primary text-decoration-none link-light" href="?category={{ category.id }}{% if search_query %}&search={{ search_query }}{% endif %}">
+                                    {{ category.name }}
+                                </a></li>
                                 
                                 {% endfor %}
                             </ul>
