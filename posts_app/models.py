@@ -21,14 +21,14 @@ class Category(models.Model):
 
 
 class Post(models.Model):
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    name = models.CharField(max_length=255)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, verbose_name='Autor')
+    name = models.CharField(max_length=255, verbose_name='Título')
     image = models.ImageField(
-        null=True, blank=True, default="default.jpg", upload_to='images/')
-    short_description = models.CharField(max_length=2000, null=True, blank=True)
-    description = models.TextField(null=True, blank=True)
-    categories = models.ManyToManyField('Category', blank=True)
-    created = models.DateTimeField(auto_now_add=True)
+        null=True, blank=True, default="default.jpg", upload_to='images/',  verbose_name='Imagem')
+    short_description = models.CharField(max_length=2000, null=True, blank=True, verbose_name='Descrição Curta')
+    description = models.TextField(null=True, blank=True,verbose_name='Descrição')
+    categories = models.ManyToManyField('Category', blank=True , verbose_name='Categorias' )
+    created = models.DateTimeField(auto_now_add=True, verbose_name='Data de Criação')
     id = models.UUIDField(default = uuid.uuid4, unique=True, 
                         primary_key=True, editable=False)
 

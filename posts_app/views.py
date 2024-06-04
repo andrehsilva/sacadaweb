@@ -2,7 +2,7 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView, D
 from django.core.paginator import Paginator
 from django.shortcuts import render
 from posts_app.models import Post, Category
-#from posts_app.forms import PostForm
+from posts_app.forms import PostForm
 from django.urls import reverse_lazy
 from django.db.models import Q
 
@@ -46,8 +46,8 @@ class PostDetailView(DetailView):
     context_object_name = 'post'
 
 
-#class PostCreateView(CreateView):
-#    model = Post
-#    form_class = PostForm
-#    template_name = 'post_form.html'
-#    success_url = reverse_lazy('post-list')
+class CreatePostView(CreateView):
+    model = Post
+    form_class = PostForm
+    template_name = 'post_form.html'
+    success_url = reverse_lazy('post-list')
