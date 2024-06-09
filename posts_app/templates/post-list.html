@@ -33,10 +33,10 @@
                         <img class="card-img-top" src="{{ post.image.url }}" alt="..." />
                         
                         <div class="card-body">
-                            <div class="small text-muted">{{ post.created }}</div>
+                            <div class="small text-muted">{{ post.created }}, por: @{{ post.owner }}</div>
                             <h2 class="card-title h4">{{ post.name }}</h2>
-                            <div class="small text-muted">@{{ post.owner }}</div>
-                            <p class="card-text">{{ post.description|slice:'256' }}...</p>
+                            <p class="card-subtitle mb-2 text-body-secondary">{{ post.short_description}}</p>
+                            <!--p class="card-text">{{ post.description|slice:'256' }}...</p-->
                             <a class="btn btn-primary" href="{% url 'post-detail' post.id %}">Saiba mais →</a>
                         </div>
                     
