@@ -7,6 +7,7 @@ from django.urls import reverse_lazy
 from django.db.models import Q
 
 
+
 class ListPosts(ListView):
     template_name = 'post-list.html'
     model = Post
