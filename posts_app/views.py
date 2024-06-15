@@ -40,6 +40,11 @@ class ListPosts(ListView):
         return context
 
 
+class ListPostsBack(ListView):
+    template_name = 'post-list-back.html'
+    model = Post
+    context_object_name = 'posts'
+
 
 class PostDetailView(DetailView):
     model = Post
