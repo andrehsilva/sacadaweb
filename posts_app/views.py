@@ -42,18 +42,40 @@ class ListPosts(ListView):
         context['no_results'] = not context['posts'].exists()
         return context
 
-class PostsData(View):
-    def get(self, request, *args, **kwargs):
-        posts = Post.objects.all().values('id', 'created', 'owner', 'name')
-        posts_list = list(posts)
-        return JsonResponse(posts_list, safe=False)
-    
 
 
 class ListPostsBack(ListView):
     template_name = 'post-list-back.html'
     model = Post
     context_object_name = 'posts'
+    paginate_by = 5
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        search_query = self.request.GET.get('search_query', '')
+
+        if search_query:
+            queryset = queryset.filter(
+                Q(name__icontains=search_query) |
+                Q(description__icontains=search_query)
+            )
+        
+        return queryset  # Return the filtered queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        search_query = self.request.GET.get('search_query', '')
+        queryset = self.get_queryset()
+
+        context['search_query'] = search_query
+        context['no_results'] = not queryset.exists()
+        context['posts'] = queryset  # Ensure posts are always a valid queryset
+
+        return context
+    
+
+ 
+
 
 
 
