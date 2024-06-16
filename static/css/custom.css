@@ -1,0 +1,64 @@
+/* Ajuste de cores e fonte */
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding: 0.5em 1em;
+    margin: 0.1em;
+    border: 1px solid #dee2e6;
+    background-color: #f8f9fa;
+    color: #343a40;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    background-color: #e2e6ea;
+    color: #343a40;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+    background-color: #343a40;
+    color: #ffffff !important;
+}
+
+table.dataTable {
+    width: 100%;
+    margin: 5px 0;
+    border-collapse: collapse;
+    border: 1px solid #dee2e6;
+    font-family: Arial, sans-serif;
+}
+
+table.dataTable th, table.dataTable td {
+    padding: 12px 15px;
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid #dee2e6;
+}
+
+table.dataTable th {
+    background-color: #f8f9fa;
+    color: #343a40;
+}
+
+table.dataTable tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+table.dataTable tbody tr:hover {
+    background-color: #e9ecef;
+}
+
+/* Header e busca */
+.dataTables_wrapper .dataTables_filter {
+    margin-bottom: 10px;
+}
+
+.dataTables_wrapper .dataTables_length {
+    margin-bottom: 10px;
+}
+
+/* Ajustes de responsividade */
+@media screen and (max-width: 768px) {
+    .dataTables_wrapper .dataTables_length,
+    .dataTables_wrapper .dataTables_filter {
+        float: none;
+        text-align: center;
+    }
+}

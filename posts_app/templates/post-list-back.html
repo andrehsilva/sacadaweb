@@ -1,128 +1,78 @@
 {% extends 'main.html' %}
 
-
 {% block content %}
-
-<!--header class="py-4 bg-light border-bottom mb-4">
-    <div class="container">
-        <div class="text-center my-4">
-            <h1 class="fw-bolder">Welcome to my Blog Home!</h1>
-            <p class="lead mb-0">I'm very happy to see you here</p>
-        </div>
-    </div>
-</header-->
+<!-- Inclua esses links no bloco head do seu template principal ou diretamente no template atual -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
 
 <div class="container pt-4">
     <div class="row">
         <!-- Blog entries-->
-        <div class="col-lg-8">
-            <!-- Featured blog post-->
-            
-            <div class="row">
-                {% if no_results %}
-                    <div class="col-lg-12">
-                        <div class="alert alert-warning" role="alert">
-                            Não encontramos resultados para sua busca.
-                        </div>
-                    </div>
-                {% else %}
-                {% for post in posts %}
-                <div class="col-lg-6">
-                    <!-- Blog post-->
-                    <div class="card mb-4">
-                        <img class="card-img-top" src="{{ post.image.url }}" alt="..." />
-                        
-                        <div class="card-body">
-                            <div class="small text-muted">{{ post.created }}, por: @{{ post.owner }}</div>
-                            <h2 class="card-title h4">{{ post.name }}</h2>
-                            <p class="card-subtitle mb-2 text-body-secondary">{{ post.short_description}}</p>
-                            <!--p class="card-text">{{ post.description|slice:'256' }}...</p-->
-                            <a class="btn btn-primary" href="{% url 'post-detail' post.id %}">Saiba mais →</a>
-                        </div>
-                    
-                    </div>
+        <div class="col-lg-12">
+            <div class="card border-0">
+                <div class="card-header">
+                    <h5 class="card-title">
+                        Artigos do site
+                    </h5>
                 </div>
-                {% endfor %}
-                {% endif %}
-            </div>
-            <!-- Pagination-->
-            <!-- Pagination -->
-            <nav aria-label="Pagination">
-                <ul class="pagination justify-content-center my-4">
-                    {% if page_obj.has_previous %}
-                    <li class="page-item">
-                        <a class="page-link" href="?page=1" aria-label="First">
-                            <span aria-hidden="true">&laquo; First</span>
-                        </a>
-                    </li>
-                    {% endif %}
-
-                    <li class="page-item active">
-                        <a class="page-link" href="#">{{ page_obj.number }}</a>
-                    </li>
-
-                    {% if page_obj.has_next %}
-                    <li class="page-item">
-                        <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Próxima">
-                            <span aria-hidden="true">Próxima &raquo;</span>
-                        </a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Última">
-                            <span aria-hidden="true">Última &raquo;</span>
-                        </a>
-                    </li>
-                    {% endif %}
-                </ul>
-            </nav>
-
-        </div>
-        <!-- Side widgets-->
-        <div class="col-lg-4">
-            <!-- Search widget-->
-            <div class="card mb-4">
-                <div class="card-header">Encontre</div>
-                <form class="form" action="{% url 'post-list' %}" method="get">
                 <div class="card-body">
-                    <div class="input-group">
-                        <input class="form-control" value="{{search_query}}" name="search_query" type="text" placeholder="Digite o termo de busca..." aria-label="igite o termo de busca..." aria-describedby="button-search" />
-                        <input class="btn btn-primary" id="button-search" type="submit"/>
-                    </div>
-                </div>
-            </form>
-            </div>
-            <!-- Categories widget-->
-            <div class="card mb-4">
-                <div class="card-header">Categorias</div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <ul class="list-unstyled mb-0">
-                                {% for category in categories.all %}
-                                <li><a class="badge bg-primary text-decoration-none link-light" href="?category={{ category.id }}{% if search_query %}&search={{ search_query }}{% endif %}">
-                                    {{ category.name }}
-                                </a></li>
+                    {% if not posts %}
+                        <div class="col-lg-12">
+                            <div class="alert alert-warning" role="alert">
+                                Não encontramos resultados para sua busca.
+                            </div>
+                        </div>
+                    {% else %}
+                        <table id="posts-table" class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Data de criação</th>
+                                    <th scope="col">Criado por:</th>
+                                    <th scope="col">Título</th>
+                                    <th scope="col">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for post in posts %}
+                                <tr>
+                                    <th scope="row">{{ post.id }}</th>
+                                    <td>{{ post.created }}</td>
+                                    <td>{{ post.owner }}</td>
+                                    <td>{{ post.name }}</td>
+                                    <td>
+                                        <a href="" class="btn btn-sm btn-primary">Editar</a>
+                                        <a href="" class="btn btn-sm btn-danger" onclick="return confirm('Tem certeza que deseja excluir este post?');">Excluir</a>
+                                    </td>
+                                </tr>
                                 
                                 {% endfor %}
-                            </ul>
-                        </div>
-                        
-                    </div>
+                            </tbody>
+                        </table>
+                    {% endif %}
                 </div>
-            </div>
-            <!-- Side widget-->
-            <div class="card mb-4">
-                <div class="card-header">Últimos artigos</div>
-                <ul class="list-unstyled p-4">
-                    {% for post in posts_latest %}
-                    <li><a class="text-decoration-none capitalize" href="{% url 'post-detail' post.id %}">{{post.name}} - {{post.created|date:"d:m:Y"}} </a></li>
-                    
-                    {% endfor %}
-                </ul>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready( function () {
+        $('#posts-table').DataTable({
+            "ajax": {
+                "url": "{% url 'posts_data' %}",
+                "dataSrc": ""
+            },
+            "columns": [
+                { "data": "id" },
+                { "data": "created" },
+                { "data": "owner" },
+                { "data": "name" }
+            ]
+        });
+    });
+</script>
 
 
 {% endblock %}

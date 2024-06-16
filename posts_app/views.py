@@ -5,6 +5,9 @@ from posts_app.models import Post, Category
 from posts_app.forms import PostForm
 from django.urls import reverse_lazy
 from django.db.models import Q
+from django.http import JsonResponse
+from django.views import View
+from .models import Post
 
 
 
@@ -39,11 +42,19 @@ class ListPosts(ListView):
         context['no_results'] = not context['posts'].exists()
         return context
 
+class PostsData(View):
+    def get(self, request, *args, **kwargs):
+        posts = Post.objects.all().values('id', 'created', 'owner', 'name')
+        posts_list = list(posts)
+        return JsonResponse(posts_list, safe=False)
+    
+
 
 class ListPostsBack(ListView):
     template_name = 'post-list-back.html'
     model = Post
     context_object_name = 'posts'
+
 
 
 class PostDetailView(DetailView):
@@ -52,8 +63,23 @@ class PostDetailView(DetailView):
     context_object_name = 'post'
 
 
+
 class CreatePostView(CreateView):
     model = Post
     form_class = PostForm
     template_name = 'post_form.html'
+    success_url = reverse_lazy('post-list')
+
+
+
+class PostUpdateView(UpdateView):
+    model = Post
+    fields = ['name', 'content']
+    template_name = 'post-edit.html'
+    success_url = reverse_lazy('post-list')
+
+
+class PostDeleteView(DeleteView):
+    model = Post
+    template_name = 'post_confirm_delete.html'
     success_url = reverse_lazy('post-list')
