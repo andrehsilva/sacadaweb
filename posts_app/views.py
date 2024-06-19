@@ -48,35 +48,29 @@ class ListPostsBack(ListView):
     template_name = 'post-list-back.html'
     model = Post
     context_object_name = 'posts'
-    paginate_by = 5
+    paginate_by = 10
 
     def get_queryset(self):
         queryset = super().get_queryset()
         search_query = self.request.GET.get('search_query', '')
-
         if search_query:
             queryset = queryset.filter(
                 Q(name__icontains=search_query) |
-                Q(description__icontains=search_query)
+                Q(description__icontains=search_query)|
+                Q(owner__username__icontains=search_query) |  # Supondo que 'username' seja o campo no modelo User
+                Q(created__date__icontains=search_query)
             )
-        
         return queryset  # Return the filtered queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         search_query = self.request.GET.get('search_query', '')
-        queryset = self.get_queryset()
 
         context['search_query'] = search_query
-        context['no_results'] = not queryset.exists()
-        context['posts'] = queryset  # Ensure posts are always a valid queryset
+        context['no_results'] = not self.get_queryset().exists()
 
         return context
     
-
- 
-
-
 
 
 class PostDetailView(DetailView):
@@ -94,9 +88,11 @@ class CreatePostView(CreateView):
 
 
 
+
+
 class PostUpdateView(UpdateView):
     model = Post
-    fields = ['name', 'content']
+    form_class = PostForm
     template_name = 'post-edit.html'
     success_url = reverse_lazy('post-list')
 
