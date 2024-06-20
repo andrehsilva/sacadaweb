@@ -8,6 +8,8 @@ from django.db.models import Q
 from django.http import JsonResponse
 from django.views import View
 from .models import Post
+from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib import messages
 
 
 
@@ -90,14 +92,18 @@ class CreatePostView(CreateView):
 
 
 
-class PostUpdateView(UpdateView):
+class PostUpdateView(SuccessMessageMixin,UpdateView):
     model = Post
     form_class = PostForm
     template_name = 'post-edit.html'
-    success_url = reverse_lazy('post-list')
+    success_message = "Post editado com sucesso!"
+
+    def get_success_url(self):
+        return reverse_lazy('post-list')
 
 
-class PostDeleteView(DeleteView):
+class PostDeleteView(SuccessMessageMixin, DeleteView):
     model = Post
-    template_name = 'post_confirm_delete.html'
+    template_name = 'post-confirm-delete.html'
     success_url = reverse_lazy('post-list')
+    success_message = "Post excluído com sucesso!"

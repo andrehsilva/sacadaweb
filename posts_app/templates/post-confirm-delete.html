@@ -1,0 +1,24 @@
+<!-- post_confirm_delete.html -->
+{% extends 'main.html' %}
+
+{% block content %}
+<div class="container pt-4">
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            <div class="card border-0">
+                <div class="card-header">
+                    <h5 class="card-title">Confirmar Exclusão</h5>
+                </div>
+                <div class="card-body">
+                    <p>Tem certeza de que deseja excluir o post "{{ object.name }}"?</p>
+                    <form method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Excluir</button>
+                        <a href="{% url 'post-list' %}" class="btn btn-secondary">Cancelar</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
