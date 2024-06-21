@@ -10,6 +10,7 @@ from django.views import View
 from .models import Post
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 
@@ -46,7 +47,7 @@ class ListPosts(ListView):
 
 
 
-class ListPostsBack(ListView):
+class ListPostsBack(LoginRequiredMixin, ListView):
     template_name = 'post-list-back.html'
     model = Post
     context_object_name = 'posts'
@@ -81,8 +82,8 @@ class PostDetailView(DetailView):
     context_object_name = 'post'
 
 
-
-class CreatePostView(CreateView):
+ 
+class CreatePostView(LoginRequiredMixin, CreateView):
     model = Post
     form_class = PostForm
     template_name = 'post_form.html'
@@ -92,7 +93,7 @@ class CreatePostView(CreateView):
 
 
 
-class PostUpdateView(SuccessMessageMixin,UpdateView):
+class PostUpdateView(LoginRequiredMixin, SuccessMessageMixin,UpdateView):
     model = Post
     form_class = PostForm
     template_name = 'post-edit.html'
@@ -102,7 +103,7 @@ class PostUpdateView(SuccessMessageMixin,UpdateView):
         return reverse_lazy('post-list')
 
 
-class PostDeleteView(SuccessMessageMixin, DeleteView):
+class PostDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     model = Post
     template_name = 'post-confirm-delete.html'
     success_url = reverse_lazy('post-list')
