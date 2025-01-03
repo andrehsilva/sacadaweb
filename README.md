@@ -61,12 +61,12 @@ Instale as dependências:
 
 
 
-Frontend: http://127.0.0.1:8000/
-![image](https://github.com/user-attachments/assets/2b635e0c-c006-4a8d-91c5-d350ed5c1f23)
+- **Frontend**: [http://127.0.0.1:8000/](http://127.0.0.1:8000/)  
+  ![Frontend](https://github.com/user-attachments/assets/2b635e0c-c006-4a8d-91c5-d350ed5c1f23)
 
+- **Dashboard**: [http://127.0.0.1:8000/admin/](http://127.0.0.1:8000/admin/)  
+  ![Dashboard](https://github.com/user-attachments/assets/a7dccb0b-3cc3-4c7d-b2fb-ae13fb8cb48b)
 
-Dashboard: http://127.0.0.1:8000/admin/
-![image](https://github.com/user-attachments/assets/a7dccb0b-3cc3-4c7d-b2fb-ae13fb8cb48b)
 
 
 ## Melhorias Futuras
